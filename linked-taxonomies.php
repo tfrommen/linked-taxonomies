@@ -5,7 +5,7 @@
  * Description: Link two (or more) taxonomies and synchronize their terms.
  * Author:      Thorsten Frommen
  * Author URI:  http://ipm-frommen.de/wordpress
- * Version:     1.0
+ * Version:     1.1
  * Text Domain: linked-taxonomies
  * Domain Path: /languages
  * License:     GPLv3

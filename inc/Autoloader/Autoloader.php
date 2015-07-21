@@ -15,7 +15,7 @@ class Autoloader {
 	private $rules = array();
 
 	/**
-	 * Register to spl autoload stack.
+	 * Constructor. Register to the spl autoload stack.
 	 */
 	public function __construct() {
 
@@ -23,9 +23,11 @@ class Autoloader {
 	}
 
 	/**
-	 * Add autoloader rule.
+	 * Add an autoloader rule.
 	 *
-	 * @param Rule $rule Autoloader rule object
+	 * @param Rule $rule Autoloader rule object.
+	 *
+	 * @return void
 	 */
 	public function add_rule( Rule $rule ) {
 
@@ -33,9 +35,9 @@ class Autoloader {
 	}
 
 	/**
-	 * Load class or interface.
+	 * Load a class or an interface.
 	 *
-	 * @param string $name Class or interface name
+	 * @param string $name Class or interface name.
 	 *
 	 * @return bool
 	 */

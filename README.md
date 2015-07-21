@@ -43,7 +43,7 @@ Depending on how exactly you want to work with the plugin, you may want to defin
 
 ```php
 /**
- * Customize the taxonomies that are available for linking.
+ * Filter the taxonomies that are available for linking.
  *
  * @param array $taxonomies Taxonomies available for linking.
  */
@@ -66,7 +66,7 @@ If you want to alter the (by default empty) set of query args that are used for 
 
 ```php
 /**
- * Customize the args for getting all taxonomies.
+ * Filter the args for getting all taxonomies.
  *
  * @param array $args Taxonomies args.
  */
@@ -101,3 +101,7 @@ add_filter( 'list_linked_taxonomies_capability', function() {
 If you have a feature request, or if you have developed the feature already, please feel free to use the Issues and/or Pull Requests section.
 
 Of course, you can also provide me with translations if you would like to use the plugin in another not yet included language.
+
+## Changelog
+
+[Changelog](CHANGELOG.md)

@@ -1,11 +1,11 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\Model\SettingsError;
+namespace tf\LinkedTaxonomies\Models\SettingsErrors;
 
 /**
  * Class InvalidTaxonomy
  *
- * @package tf\LinkedTaxonomies\Model\SettingsError
+ * @package tf\LinkedTaxonomies\Models\SettingsErrors
  */
 class InvalidTaxonomy extends SettingsError {
 

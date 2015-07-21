@@ -2,9 +2,6 @@
 
 namespace tf\LinkedTaxonomies;
 
-use tf\LinkedTaxonomies\Controller;
-use tf\LinkedTaxonomies\Model;
-
 /**
  * Class Plugin
  *
@@ -18,9 +15,7 @@ class Plugin {
 	private $file;
 
 	/**
-	 * Constructor. Init properties.
-	 *
-	 * @see init()
+	 * Constructor. Set up the properties.
 	 *
 	 * @param string $file Main plugin file.
 	 */
@@ -30,19 +25,30 @@ class Plugin {
 	}
 
 	/**
-	 * Initialize the controller.
-	 *
-	 * @see initialize()
+	 * Initialize the plugin.
 	 *
 	 * @return void
 	 */
 	public function initialize() {
 
-		add_action( 'wp_loaded', array( new Controller\Taxonomy(), 'initialize' ) );
+		$taxonomy = new Models\Taxonomy();
+		$taxonomy_controller = new Controllers\Taxonomy( $taxonomy );
+		$taxonomy_controller->initialize();
 
 		if ( is_admin() ) {
-			$admin_controller = new Controller\Admin( $this->file );
-			$admin_controller->initialize();
+			$text_domain = new Models\TextDomain( $this->file );
+			$text_domain->load();
+
+			$settings_page = new Models\SettingsPage();
+			$settings = new Models\Settings( $settings_page );
+			$settings_page_view = new Views\SettingsPage( $settings_page );
+			$settings_controller = new Controllers\Settings( $settings, $settings_page_view );
+			$settings_controller->initialize();
+
+			$script = new Models\Script( $this->file );
+			$style = new Models\Style( $this->file );
+			$assets_controller = new Controllers\Assets( $script, $style, $settings_page );
+			$assets_controller->initialize();
 		}
 	}
 

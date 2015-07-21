@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Linked Taxonomies v1.0\n"
+"Project-Id-Version: Linked Taxonomies v1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-04-07 07:56:02+0000\n"
+"PO-Revision-Date: 2015-07-21 22:06:13+0000\n"
 "Last-Translator: Thorsten Frommen <tf@ipm-frommen.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,47 +20,47 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: inc/Model/SettingsError/InvalidTaxonomy.php:23
+#: inc/Models/SettingsErrors/InvalidTaxonomy.php:23
 #, php-format
 #@ linked-taxonomies
 msgctxt "Settings error message, %s=taxonomy name"
 msgid "Taxonomy '%s' invalid!"
 msgstr "Taxonomie '%s' ungültig!"
 
-#: inc/Model/SettingsError/NoPermissionToEdit.php:22
+#: inc/Models/SettingsErrors/NoPermissionToEdit.php:22
 #@ linked-taxonomies
 msgctxt "Settings error message"
 msgid "You don't have permission to edit linked taxonomies."
 msgstr "Du hast keine Berechtigung, verlinkte Taxonomien zu bearbeiten."
 
-#: inc/Model/SettingsPage.php:51
+#: inc/Views/SettingsPage.php:58
 #@ linked-taxonomies
 msgctxt "Settings page title"
 msgid "Linked Taxonomies"
 msgstr "Verlinkte Taxonomien"
 
-#: inc/Model/SettingsPage.php:87
+#: inc/Views/SettingsPage.php:70
 #@ linked-taxonomies
 msgctxt "Menu item title"
 msgid "Taxonomies"
 msgstr "Taxonomien"
 
-#: inc/View/SettingsPage.php:150
+#: inc/Views/SettingsPage.php:179
 #@ linked-taxonomies
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
-#: inc/View/SettingsPage.php:153
+#: inc/Views/SettingsPage.php:182
 #@ linked-taxonomies
 msgid "No Link"
 msgstr "Kein Link"
 
-#: inc/View/SettingsPage.php:156
+#: inc/Views/SettingsPage.php:185
 #@ linked-taxonomies
 msgid "Unidirectional Link"
 msgstr "Einseitiger Link"
 
-#: inc/View/SettingsPage.php:159
+#: inc/Views/SettingsPage.php:188
 #@ linked-taxonomies
 msgid "Bidirectional Link"
 msgstr "Beidseitiger Link"
@@ -98,6 +98,6 @@ msgstr ""
 #. translators: plugin header field 'Version'
 #: linked-taxonomies.php:0
 #@ linked-taxonomies
-msgid "1.0"
+msgid "1.1"
 msgstr ""
 

@@ -1,13 +1,13 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\Model;
+namespace tf\LinkedTaxonomies\Models;
 
 /**
- * Class Script
+ * Class Style
  *
- * @package tf\LinkedTaxonomies\Model
+ * @package tf\LinkedTaxonomies\Models
  */
-class Script {
+class Style {
 
 	/**
 	 * @var string
@@ -15,9 +15,9 @@ class Script {
 	private $file;
 
 	/**
-	 * Constructor. Set up properties.
+	 * Constructor. Set up the properties.
 	 *
-	 * @param string $file Main plugin file
+	 * @param string $file Main plugin file.
 	 */
 	public function __construct( $file ) {
 
@@ -27,22 +27,22 @@ class Script {
 	/**
 	 * Enqueue the script file.
 	 *
-	 * @wp-hook admin_footer-{$hook_suffix}
+	 * @wp-hook admin_print_scripts-{$hook_suffix}
 	 *
 	 * @return void
 	 */
 	public function enqueue() {
 
 		$url = plugin_dir_url( $this->file );
-		$file = 'assets/js/admin.js';
+		$infix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$file = 'assets/css/admin' . $infix . '.css';
 		$path = plugin_dir_path( $this->file );
 		$version = filemtime( $path . $file );
-		wp_enqueue_script(
+		wp_enqueue_style(
 			'linked-taxonomies-admin',
 			$url . $file,
-			array( 'jquery' ),
-			$version,
-			TRUE
+			array(),
+			$version
 		);
 	}
 

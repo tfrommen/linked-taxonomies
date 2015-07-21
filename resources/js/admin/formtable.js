@@ -1,5 +1,3 @@
-var Plugin = Plugin || {};
-
 /* global jQuery */
 ;( function( Plugin, $ ) {
 	"use strict";

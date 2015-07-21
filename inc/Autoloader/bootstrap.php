@@ -2,7 +2,6 @@
 
 namespace tf\Autoloader;
 
-// Require autoloader classes
 foreach ( array( 'Autoloader', 'Rule', 'NamespaceRule' ) as $name ) {
 	$fqn = __NAMESPACE__ . '\\' . $name;
 	if ( ! class_exists( $fqn ) && ! interface_exists( $fqn ) ) {

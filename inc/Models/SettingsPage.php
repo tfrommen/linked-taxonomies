@@ -1,14 +1,13 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\Model;
+namespace tf\LinkedTaxonomies\Models;
 
-use tf\LinkedTaxonomies\Controller;
-use tf\LinkedTaxonomies\View;
+use tf\LinkedTaxonomies\Views;
 
 /**
  * Class SettingsPage
  *
- * @package tf\LinkedTaxonomies\Model
+ * @package tf\LinkedTaxonomies\Models
  */
 class SettingsPage {
 
@@ -23,14 +22,7 @@ class SettingsPage {
 	private $slug = 'linked_taxonomies';
 
 	/**
-	 * @var string
-	 */
-	private $title;
-
-	/**
 	 * Constructor. Set up the properties.
-	 *
-	 * @see tf\LinkedTaxonomies\Controller\Admin::initialize()
 	 */
 	public function __construct() {
 
@@ -47,14 +39,22 @@ class SettingsPage {
 		 * @param string $capability Capability required to edit the linked taxonomies.
 		 */
 		$this->capabilities[ 'edit' ] = apply_filters( 'edit_linked_taxonomies_capability', 'manage_options' );
+	}
 
-		$this->title = _x( 'Linked Taxonomies', 'Settings page title', 'linked-taxonomies' );
+	/**
+	 * Return the capability for the given action.
+	 *
+	 * @param string $action Capability action.
+	 *
+	 * @return string
+	 */
+	public function get_capability( $action ) {
+
+		return empty( $this->capabilities[ $action ] ) ? 'do_not_allow' : $this->capabilities[ $action ];
 	}
 
 	/**
 	 * Return the page slug.
-	 *
-	 * @see tf\LinkedTaxonomies\View\AdminNotice::render()
 	 *
 	 * @return string
 	 */
@@ -64,40 +64,7 @@ class SettingsPage {
 	}
 
 	/**
-	 * Return the page title.
-	 *
-	 * @see tf\LinkedTaxonomies\View\AdminNotice::render()
-	 *
-	 * @return string
-	 */
-	public function get_title() {
-
-		return $this->title;
-	}
-
-	/**
-	 * Add the settings page to the Pages menu.
-	 *
-	 * @wp-hook admin_menu
-	 *
-	 * @return void
-	 */
-	public function add() {
-
-		$menu_title = _x( 'Taxonomies', 'Menu item title', 'linked-taxonomies' );
-		add_options_page(
-			$this->title,
-			$menu_title,
-			$this->capabilities[ 'list' ],
-			$this->slug,
-			array( new View\SettingsPage( $this ), 'render' )
-		);
-	}
-
-	/**
 	 * Check if the current user has the capability required to perform the given action.
-	 *
-	 * @see tf\LinkedTaxonomies\View\SettingsPage::render()
 	 *
 	 * @param string $action Action name.
 	 *

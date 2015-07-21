@@ -1,30 +1,25 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\Controller;
-
-use tf\LinkedTaxonomies\Model;
-use tf\LinkedTaxonomies\Model\SettingsError;
+namespace tf\LinkedTaxonomies\Models;
 
 /**
  * Class Settings
  *
- * @package tf\LinkedTaxonomies\Controller
+ * @package tf\LinkedTaxonomies\Models
  */
 class Settings {
 
 	/**
-	 * @var Model\SettingsPage
+	 * @var SettingsPage
 	 */
 	private $settings_page;
 
 	/**
 	 * Constructor. Set up the properties.
 	 *
-	 * @see tf\LinkedTaxonomies\Controller\Admin::initialize()
-	 *
-	 * @param Model\SettingsPage $settings_page Settings page model.
+	 * @param SettingsPage $settings_page Settings page model.
 	 */
-	public function __construct( Model\SettingsPage $settings_page ) {
+	public function __construct( SettingsPage $settings_page ) {
 
 		$this->settings_page = $settings_page;
 	}
@@ -36,32 +31,30 @@ class Settings {
 	 *
 	 * @return void
 	 */
-	public function register_settings() {
+	public function register() {
 
-		$option_name = Model\Option::get_name();
+		$option_name = Option::get_name();
 		register_setting(
 			$option_name,
 			$option_name,
-			array( $this, 'sanitize_data' )
+			array( $this, 'sanitize' )
 		);
 	}
 
 	/**
 	 * Sanitize the settings data.
 	 *
-	 * @see register_settings()
-	 *
 	 * @param array $data Settings data.
 	 *
 	 * @return array
 	 */
-	public function sanitize_data( $data ) {
+	public function sanitize( $data ) {
 
 		if ( ! $this->settings_page->current_user_can( 'edit' ) ) {
-			$error = new SettingsError\NoPermissionToEdit();
+			$error = new SettingsErrors\NoPermissionToEdit();
 			$error->add();
 
-			return Model\Option::get();
+			return Option::get();
 		}
 
 		$sanitized_data = array();
@@ -71,7 +64,7 @@ class Settings {
 				! is_string( $source )
 				|| $source === ''
 			) {
-				$error = new SettingsError\InvalidTaxonomy( $source );
+				$error = new SettingsErrors\InvalidTaxonomy( $source );
 				$error->add();
 			} else {
 				foreach ( $targets as $target => $link ) {
@@ -79,7 +72,7 @@ class Settings {
 						! is_string( $target )
 						|| $target === ''
 					) {
-						$error = new SettingsError\InvalidTaxonomy( $target );
+						$error = new SettingsErrors\InvalidTaxonomy( $target );
 						$error->add();
 					} else {
 						switch ( (int) $link ) {
@@ -125,4 +118,5 @@ class Settings {
 
 		return $links;
 	}
+
 }

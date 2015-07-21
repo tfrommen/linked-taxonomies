@@ -1,14 +1,14 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\View;
+namespace tf\LinkedTaxonomies\Views;
 
-use tf\LinkedTaxonomies\Controller;
-use tf\LinkedTaxonomies\Model;
+use tf\LinkedTaxonomies\Models\SettingsPage as Model;
+use tf\LinkedTaxonomies\Models;
 
 /**
  * Class SettingsPage
  *
- * @package tf\LinkedTaxonomies\View
+ * @package tf\LinkedTaxonomies\Views
  */
 class SettingsPage {
 
@@ -28,32 +28,64 @@ class SettingsPage {
 	private $linked_taxonomies;
 
 	/**
-	 * @var Model\SettingsPage
+	 * @var Model
 	 */
 	private $model;
 
 	/**
+	 * @var string
+	 */
+	private $option_name;
+
+	/**
+	 * @var string
+	 */
+	private $title;
+
+	/**
 	 * Constructor. Set up the properties.
 	 *
-	 * @param Model\SettingsPage $model Settings page model.
+	 * @param Model $model Settings page model.
 	 */
-	public function __construct( Model\SettingsPage $model ) {
+	public function __construct( Model $model ) {
 
 		$this->model = $model;
+
 		$this->current_user_can_edit = $this->model->current_user_can( 'edit' );
+
+		$this->option_name = Models\Option::get_name();
+
+		$this->title = _x( 'Linked Taxonomies', 'Settings page title', 'linked-taxonomies' );
+	}
+
+	/**
+	 * Add the settings page to the Settings menu.
+	 *
+	 * @wp-hook admin_menu
+	 *
+	 * @return void
+	 */
+	public function add() {
+
+		$menu_title = _x( 'Taxonomies', 'Menu item title', 'linked-taxonomies' );
+		add_options_page(
+			$this->title,
+			$menu_title,
+			$this->model->get_capability( 'list' ),
+			$this->model->get_slug(),
+			array( $this, 'render' )
+		);
 	}
 
 	/**
 	 * Render the HTML.
-	 *
-	 * @see tf\LinkedTaxonomies\Model\SettingsPage::add()
 	 *
 	 * @return void
 	 */
 	public function render() {
 
 		/**
-		 * Customize the args for getting all taxonomies.
+		 * Filter the args for getting all taxonomies.
 		 *
 		 * @see get_taxonomies()
 		 *
@@ -62,20 +94,17 @@ class SettingsPage {
 		$args = apply_filters( 'linked_taxonomies_get_taxonomies_args', array() );
 		$this->all_taxonomies = get_taxonomies( $args, 'objects' );
 		/**
-		 * Customize the taxonomies that are available for linking.
+		 * Filter the taxonomies that are available for linking.
 		 *
 		 * @param array $taxonomies Taxonomies available for linking.
 		 */
 		$this->all_taxonomies = (array) apply_filters( 'linkable_taxonomies', $this->all_taxonomies );
 
-		$option_name = Model\Option::get_name();
-		$this->linked_taxonomies = get_option( $option_name, array() );
-
-		$title = $this->model->get_title();
+		$this->linked_taxonomies = get_option( $this->option_name, array() );
 		?>
 		<div class="wrap">
 			<h2>
-				<?php esc_html_e( $title ); ?>
+				<?php esc_html_e( $this->title ); ?>
 			</h2>
 			<?php
 			if ( $this->current_user_can_edit ) {
@@ -91,16 +120,13 @@ class SettingsPage {
 	/**
 	 * Render the settings form.
 	 *
-	 * @see render()
-	 *
 	 * @return void
 	 */
 	private function render_form() {
 
-		$option_name = Model\Option::get_name();
 		?>
 		<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
-			<?php settings_fields( $option_name ); ?>
+			<?php settings_fields( $this->option_name ); ?>
 			<?php $this->render_table(); ?>
 			<?php submit_button(); ?>
 		</form>
@@ -109,9 +135,6 @@ class SettingsPage {
 
 	/**
 	 * Render the settings table.
-	 *
-	 * @see render()
-	 * @see render_form()
 	 *
 	 * @return void
 	 */
@@ -201,7 +224,7 @@ class SettingsPage {
 				$link++;
 			};
 		};
-		$name = Model\Option::get_name() . '[' . $taxonomy_name . '][' . $target_taxonomy->name . ']';
+		$name = $this->option_name . '[' . $taxonomy_name . '][' . $target_taxonomy->name . ']';
 		$disabled = disabled( $this->current_user_can_edit, FALSE, FALSE );
 		?>
 		<tr>

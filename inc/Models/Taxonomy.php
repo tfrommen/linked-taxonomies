@@ -1,11 +1,11 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\Model;
+namespace tf\LinkedTaxonomies\Models;
 
 /**
  * Class Taxonomy
  *
- * @package tf\LinkedTaxonomies\Model
+ * @package tf\LinkedTaxonomies\Models
  */
 class Taxonomy {
 
@@ -26,8 +26,6 @@ class Taxonomy {
 
 	/**
 	 * Constructor. Set up the properties.
-	 *
-	 * @see tf\LinkedTaxonomies\Controller\Taxonomy::initialize()
 	 */
 	public function __construct() {
 
@@ -45,7 +43,10 @@ class Taxonomy {
 	 *
 	 * @return void
 	 */
-	public function insert_term( $term_id, $tt_id, $taxonomy ) {
+	public function insert_term(
+		/** @noinspection PhpUnusedParameterInspection */
+		$term_id, $tt_id, $taxonomy
+	) {
 
 		if ( ! isset( $this->linked_taxonomies[ $taxonomy ] ) ) {
 			return;
@@ -177,7 +178,10 @@ class Taxonomy {
 	 *
 	 * @return void
 	 */
-	public function delete_term( $term, $tt_id, $taxonomy, $deleted_term ) {
+	public function delete_term(
+		/** @noinspection PhpUnusedParameterInspection */
+		$term, $tt_id, $taxonomy, $deleted_term
+	) {
 
 		if ( ! isset( $this->linked_taxonomies[ $taxonomy ] ) ) {
 			return;

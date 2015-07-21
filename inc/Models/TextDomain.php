@@ -1,13 +1,18 @@
 <?php # -*- coding: utf-8 -*-
 
-namespace tf\LinkedTaxonomies\Model;
+namespace tf\LinkedTaxonomies\Models;
 
 /**
  * Class TextDomain
  *
- * @package tf\LinkedTaxonomies\Model
+ * @package tf\LinkedTaxonomies\Models
  */
 class TextDomain {
+
+	/**
+	 * @var string
+	 */
+	private $domain = 'linked-taxonomies';
 
 	/**
 	 * @var string
@@ -15,9 +20,7 @@ class TextDomain {
 	private $path;
 
 	/**
-	 * Constructor. Set up properties.
-	 *
-	 * @see tf\LinkedTaxonomies\Plugin::initialize()
+	 * Constructor. Set up the properties.
 	 *
 	 * @param string $file Main plugin file.
 	 */
@@ -28,15 +31,13 @@ class TextDomain {
 	}
 
 	/**
-	 * Load text domain.
+	 * Load the text domain.
 	 *
-	 * @see tf\LinkedTaxonomies\Controller\Admin::initialize()
-	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function load() {
 
-		load_plugin_textdomain( 'linked-taxonomies', FALSE, $this->path );
+		return load_plugin_textdomain( $this->domain, FALSE, $this->path );
 	}
 
 }
