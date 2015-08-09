@@ -55,7 +55,7 @@ class SettingsPage {
 
 		$this->option_name = Models\Option::get_name();
 
-		$this->title = _x( 'Linked Taxonomies', 'Settings page title', 'linked-taxonomies' );
+		$this->title = esc_html_x( 'Linked Taxonomies', 'Settings page title', 'linked-taxonomies' );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class SettingsPage {
 	 */
 	public function add() {
 
-		$menu_title = _x( 'Taxonomies', 'Menu item title', 'linked-taxonomies' );
+		$menu_title = esc_html_x( 'Taxonomies', 'Menu item title', 'linked-taxonomies' );
 		add_options_page(
 			$this->title,
 			$menu_title,
@@ -104,7 +104,7 @@ class SettingsPage {
 		?>
 		<div class="wrap">
 			<h2>
-				<?php esc_html_e( $this->title ); ?>
+				<?php echo $this->title; ?>
 			</h2>
 			<?php
 			if ( $this->current_user_can_edit ) {
@@ -176,16 +176,16 @@ class SettingsPage {
 					<thead>
 					<tr>
 						<th>
-							<?php _e( 'Taxonomy', 'linked-taxonomies' ); ?>
+							<?php esc_html_e( 'Taxonomy', 'linked-taxonomies' ); ?>
 						</th>
 						<th>
-							<?php _e( 'No Link', 'linked-taxonomies' ); ?>
+							<?php esc_html_e( 'No Link', 'linked-taxonomies' ); ?>
 						</th>
 						<th>
-							<?php _e( 'Unidirectional Link', 'linked-taxonomies' ); ?>
+							<?php esc_html_e( 'Unidirectional Link', 'linked-taxonomies' ); ?>
 						</th>
 						<th>
-							<?php _e( 'Bidirectional Link', 'linked-taxonomies' ); ?>
+							<?php esc_html_e( 'Bidirectional Link', 'linked-taxonomies' ); ?>
 						</th>
 					</tr>
 					</thead>
