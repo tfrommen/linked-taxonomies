@@ -50,7 +50,7 @@ abstract class SettingsError {
 	 */
 	protected function set_message( $message ) {
 
-		$this->message = $message;
+		$this->message = esc_html( $message );
 	}
 
 	/**

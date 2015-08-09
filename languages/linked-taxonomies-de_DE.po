@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Linked Taxonomies v1.1\n"
+"Project-Id-Version: Linked Taxonomies v1.1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-07-21 22:06:13+0000\n"
+"PO-Revision-Date: 2015-08-09 11:09:53+0000\n"
 "Last-Translator: Thorsten Frommen <tf@ipm-frommen.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -98,6 +98,6 @@ msgstr ""
 #. translators: plugin header field 'Version'
 #: linked-taxonomies.php:0
 #@ linked-taxonomies
-msgid "1.1"
+msgid "1.1.1"
 msgstr ""
 

@@ -1,8 +1,10 @@
 {
 	"name": "linked-taxonomies",
+	"version": "1.1.1",
 	"description": "Link two (or more) taxonomies and synchronize their terms.",
+	"bugs": "https://github.com/tfrommen/linked-taxonomies/issues",
+	"license": "GPL-3.0",
 	"author": "Thorsten Frommen",
-	"version": "1.1.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/tfrommen/linked-taxonomies"
