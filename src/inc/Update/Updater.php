@@ -12,7 +12,7 @@ class Updater {
 	/**
 	 * @var string
 	 */
-	private $option_name = 'meta_taxonomy_version';
+	private $option_name = 'linked_taxonomies_version';
 
 	/**
 	 * @var string
