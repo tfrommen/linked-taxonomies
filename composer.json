@@ -1,0 +1,49 @@
+{
+	"name": "tfrommen/linked-taxonomies",
+	"description": "This plugin links two (or more) taxonomies and synchronizes their terms.",
+	"type": "wordpress-plugin",
+	"keywords": [
+		"duplicate",
+		"link",
+		"reference",
+		"synchronize",
+		"taxonomies",
+		"taxonomy",
+		"term",
+		"terms"
+	],
+	"homepage": "https://github.com/tfrommen/linked-taxonomies",
+	"license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Thorsten Frommen",
+			"email": "info@tfrommen.de",
+			"homepage": "http://tfrommen.de",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/tfrommen/linked-taxonomies/issues",
+		"source": "https://github.com/tfrommen/linked-taxonomies"
+	},
+	"require": {
+		"php": ">=5.3.0",
+		"composer/installers": "~1.0"
+	},
+	"require-dev": {
+		"php": ">=5.3.3",
+		"10up/wp_mock": "dev-master",
+		"mockery/mockery": "~0.9.4",
+		"phpunit/phpunit": "~4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"tfrommen\\LinkedTaxonomies\\": "src/inc/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.3.x-dev"
+		}
+	}
+}

@@ -2,39 +2,19 @@
 /**
  * Plugin Name: Linked Taxonomies
  * Plugin URI:  https://github.com/tfrommen/linked-taxonomies
- * Description: Link two (or more) taxonomies and synchronize their terms.
+ * Description: This plugin links two (or more) taxonomies and synchronizes their terms.
  * Author:      Thorsten Frommen
- * Author URI:  http://ipm-frommen.de/wordpress
- * Version:     1.1.1
+ * Author URI:  http://tfrommen.de
+ * Version:     1.2.0
  * Text Domain: linked-taxonomies
- * Domain Path: /languages
+ * Domain Path: /src/languages
  * License:     GPLv3
  */
 
-namespace tf\LinkedTaxonomies;
+defined( 'ABSPATH' ) or die();
 
-use tf\Autoloader;
-
-if ( ! function_exists( 'add_action' ) ) {
-	return;
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-require_once __DIR__ . '/inc/Autoloader/bootstrap.php';
-
-add_action( 'plugins_loaded', __NAMESPACE__ . '\initialize' );
-
-/**
- * Initialize the plugin.
- *
- * @wp-hook plugins_loaded
- *
- * @return void
- */
-function initialize() {
-
-	$autoloader = new Autoloader\Autoloader();
-	$autoloader->add_rule( new Autoloader\NamespaceRule( __DIR__ . '/inc', __NAMESPACE__ ) );
-
-	$plugin = new Plugin( __FILE__ );
-	$plugin->initialize();
-}
+require_once __DIR__ . '/src/' . basename( __FILE__ );

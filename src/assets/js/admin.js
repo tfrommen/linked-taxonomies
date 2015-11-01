@@ -1,3 +1,5 @@
+var Plugin = Plugin || {};
+
 /* global Plugin */
 (
 	function( $, Plugin ) {

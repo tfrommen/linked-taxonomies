@@ -1,10 +1,15 @@
 # Linked Taxonomies
 
+[![Latest Stable Version](https://poser.pugx.org/tfrommen/linked-taxonomies/v/stable)](https://packagist.org/packages/tfrommen/linked-taxonomies)
+[![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
+[![Build Status](https://travis-ci.org/tfrommen/linked-taxonomies.svg?branch=master)](http://travis-ci.org/tfrommen/linked-taxonomies)
+[![License](https://poser.pugx.org/tfrommen/linked-taxonomies/license)](https://packagist.org/packages/tfrommen/linked-taxonomies)
+
 Have you ever had to work with two or more taxonomies that basically share the same terms? And then you got tired of propagating all the changes you made on one taxonomy's terms to the other taxonomies?
 
 This is exactly when _Linked Taxonomies_ kicks in.
 
-There are several good reasons for having individual taxonomies that consist of the same set of terms. One is if these taxonomies are registered for different sets of post types. Or _object_ types, to be more precise, as you can also use taxonomies and terms on users. Another good reason is using one _source_ taxonomy that is visible to certain user roles, and link one or more completely hidden _target_ taxonomies that you only use automatically in the background.
+There are several good reasons for having individual taxonomies that consist of the same set of terms. One is if these taxonomies are registered for different sets of post types. Or _object_ types, to be more precise, as you can also use taxonomies and terms on comments or users. Another good reason is using one _source_ taxonomy that is visible to certain user roles, and link one or more completely hidden _target_ taxonomies that you only use automatically in the background.
 
 ## Installation
 
@@ -27,9 +32,9 @@ Editing linked taxonomies is restricted to a certain capability, which is by def
 
 ```php
 /**
- * Filter the capability required to edit the linked taxonomies.
+ * Filters the capability required to edit linked taxonomies.
  *
- * @param string $capability Capability required to edit the linked taxonomies.
+ * @param string $capability Capability required to edit linked taxonomies.
  */
 add_filter( 'edit_linked_taxonomies_capability', function() {
 	
@@ -43,9 +48,9 @@ Depending on how exactly you want to work with the plugin, you may want to defin
 
 ```php
 /**
- * Filter the taxonomies that are available for linking.
+ * Filters the taxonomies that are available for linking.
  *
- * @param array $taxonomies Taxonomies available for linking.
+ * @param object[] $taxonomies Taxonomy objects.
  */
 add_filter( 'linkable_taxonomies', function( $taxonomies ) {
 
@@ -66,7 +71,7 @@ If you want to alter the (by default empty) set of query args that are used for 
 
 ```php
 /**
- * Filter the args for getting all taxonomies.
+ * Filters the args for getting all taxonomies.
  *
  * @param array $args Taxonomies args.
  */
@@ -86,9 +91,9 @@ Accessing the plugin's settings page is restricted, too. In order to distinguish
 
 ```php
 /**
- * Filter the capability required to list the linked taxonomies.
+ * Filters the capability required to list linked taxonomies.
  *
- * @param string $capability Capability required to list the linked taxonomies.
+ * @param string $capability Capability required to list linked taxonomies.
  */
 add_filter( 'list_linked_taxonomies_capability', function() {
 	
