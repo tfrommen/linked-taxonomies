@@ -7,7 +7,7 @@ namespace tfrommen\LinkedTaxonomies\SettingsError;
  *
  * @package tfrommen\LinkedTaxonomies\SettingsError
  */
-class SettingsError  implements SettingsErrorInterface {
+class SettingsError implements SettingsErrorInterface {
 
 	/**
 	 * @var string
@@ -57,15 +57,15 @@ class SettingsError  implements SettingsErrorInterface {
 	 */
 	public function add() {
 
-		if ( empty( $this->code ) ) {
+		if ( $this->code === '' ) {
 			return FALSE;
 		}
 
-		if ( empty( $this->message ) ) {
+		if ( $this->message === '' ) {
 			return FALSE;
 		}
 
-		if ( empty( $this->slug ) ) {
+		if ( $this->slug === '' ) {
 			return FALSE;
 		}
 

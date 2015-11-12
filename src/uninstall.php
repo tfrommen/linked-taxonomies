@@ -13,6 +13,7 @@ global $wpdb;
 
 $uninstaller = new Uninstall\Uninstaller(
 	new Update\Updater(),
-	$wpdb
+	$wpdb,
+	new Setting\Option()
 );
 $uninstaller->uninstall();

@@ -1,10 +1,14 @@
 <?php # -*- coding: utf-8 -*-
 
+namespace tfrommen\Tests\LinkedTaxonomies\Update;
+
+use Mockery;
 use tfrommen\LinkedTaxonomies\Update\Updater as Testee;
+use WP_Mock;
 use WP_Mock\Tools\TestCase;
 
 /**
- * Test case for the Updater class.
+ * Test case for the updater.
  */
 class UpdaterTest extends TestCase {
 
@@ -34,29 +38,27 @@ class UpdaterTest extends TestCase {
 
 		$testee = new Testee( $version );
 
+		$option_name = 'linked_taxonomies_version';
+
 		WP_Mock::wpFunction(
 			'get_option',
 			array(
-				'times'  => 1,
 				'args'   => array(
-					Mockery::type( 'string' ),
+					$option_name,
 				),
 				'return' => $old_version,
 			)
 		);
 
-		if ( $old_version !== $version ) {
-			WP_Mock::wpFunction(
-				'update_option',
-				array(
-					'times' => 1,
-					'args'  => array(
-						Mockery::type( 'string' ),
-						$version,
-					),
-				)
-			);
-		}
+		WP_Mock::wpFunction(
+			'update_option',
+			array(
+				'args' => array(
+					$option_name,
+					$version,
+				),
+			)
+		);
 
 		$this->assertSame( $expected, $testee->update() );
 

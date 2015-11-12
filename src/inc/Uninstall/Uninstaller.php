@@ -13,6 +13,11 @@ use tfrommen\LinkedTaxonomies\Update\Updater;
 class Uninstaller {
 
 	/**
+	 * @var Option
+	 */
+	private $option;
+
+	/**
 	 * @var string
 	 */
 	private $version_option_name;
@@ -27,12 +32,15 @@ class Uninstaller {
 	 *
 	 * @param Updater $updater Updater.
 	 * @param \wpdb   $wpdb    Database object.
+	 * @param Option  $option  Option model.
 	 */
-	public function __construct( Updater $updater, \wpdb $wpdb ) {
+	public function __construct( Updater $updater, \wpdb $wpdb, Option $option ) {
 
 		$this->version_option_name = $updater->get_option_name();
 
 		$this->wpdb = $wpdb;
+
+		$this->option = $option;
 	}
 
 	/**
@@ -42,7 +50,7 @@ class Uninstaller {
 	 */
 	public function uninstall() {
 
-		$option_name = Option::get_name();
+		$option_name = $this->option->get_name();
 
 		if ( is_multisite() ) {
 			foreach ( $this->wpdb->get_col( "SELECT blog_id FROM {$this->wpdb->blogs}" ) as $blog_id ) {

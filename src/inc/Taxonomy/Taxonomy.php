@@ -28,10 +28,12 @@ class Taxonomy {
 
 	/**
 	 * Constructor. Sets up the properties.
+	 *
+	 * @param Option $option Option model.
 	 */
-	public function __construct() {
+	public function __construct( Option $option ) {
 
-		$this->linked_taxonomies = Option::get();
+		$this->linked_taxonomies = $option->get();
 	}
 
 	/**
@@ -43,7 +45,7 @@ class Taxonomy {
 	 * @param int    $tt_id    Unused. Term taxonomy ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function insert_term(
 		/** @noinspection PhpUnusedParameterInspection */
@@ -53,12 +55,12 @@ class Taxonomy {
 	) {
 
 		if ( ! isset( $this->linked_taxonomies[ $taxonomy ] ) ) {
-			return;
+			return FALSE;
 		}
 
 		$term = get_term( $term_id, $taxonomy );
 		if ( ! $term ) {
-			return;
+			return FALSE;
 		}
 
 		foreach ( $this->linked_taxonomies[ $taxonomy ] as $linked_taxonomy ) {
@@ -79,6 +81,8 @@ class Taxonomy {
 				wp_insert_term( $term->name, $linked_taxonomy, $args );
 			}
 		}
+
+		return TRUE;
 	}
 
 	/**
@@ -89,26 +93,28 @@ class Taxonomy {
 	 * @param int    $term_id  Term ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function save_term( $term_id, $taxonomy ) {
 
 		$term = get_term( $term_id, $taxonomy );
 		if ( ! $term ) {
-			return;
+			return FALSE;
 		}
 
 		unset( $this->terms[ $term->term_taxonomy_id ] );
 
 		if ( $this->processing ) {
-			return;
+			return FALSE;
 		}
 
 		if ( ! isset( $this->linked_taxonomies[ $taxonomy ] ) ) {
-			return;
+			return FALSE;
 		}
 
 		$this->terms[ $term->term_taxonomy_id ] = $term;
+
+		return TRUE;
 	}
 
 	/**
@@ -119,7 +125,7 @@ class Taxonomy {
 	 * @param int    $tt_id    Term taxonomy ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function update_term( $tt_id, $taxonomy ) {
 
@@ -129,20 +135,20 @@ class Taxonomy {
 		}
 
 		if ( $this->processing ) {
-			return;
+			return FALSE;
 		}
 
 		if ( ! isset( $this->linked_taxonomies[ $taxonomy ] ) ) {
-			return;
+			return FALSE;
 		}
 
 		$updated_term = get_term_by( 'term_taxonomy_id', $tt_id, $taxonomy );
 		if ( ! $updated_term ) {
-			return;
+			return FALSE;
 		}
 
 		if ( empty( $this->terms[ $tt_id ] ) ) {
-			return;
+			return FALSE;
 		}
 
 		unset( $updated_term->taxonomy );
@@ -179,6 +185,8 @@ class Taxonomy {
 		}
 
 		$this->processing = FALSE;
+
+		return TRUE;
 	}
 
 	/**
@@ -191,7 +199,7 @@ class Taxonomy {
 	 * @param string $taxonomy     Taxonomy name.
 	 * @param object $deleted_term Term object.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function delete_term(
 		/** @noinspection PhpUnusedParameterInspection */
@@ -202,15 +210,17 @@ class Taxonomy {
 	) {
 
 		if ( ! isset( $this->linked_taxonomies[ $taxonomy ] ) ) {
-			return;
+			return FALSE;
 		}
 
 		foreach ( $this->linked_taxonomies[ $taxonomy ] as $linked_taxonomy ) {
-			$linked_term = get_term_by( 'name', $deleted_term->name, $linked_taxonomy );
+			$linked_term = get_term_by( 'slug', $deleted_term->slug, $linked_taxonomy );
 			if ( $linked_term ) {
 				wp_delete_term( $linked_term->term_id, $linked_taxonomy );
 			}
 		}
+
+		return TRUE;
 	}
 
 }

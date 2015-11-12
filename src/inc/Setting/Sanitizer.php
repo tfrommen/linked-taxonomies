@@ -13,6 +13,11 @@ use tfrommen\LinkedTaxonomies\SettingsPage\SettingsPage;
 class Sanitizer {
 
 	/**
+	 * @var Option
+	 */
+	private $option;
+
+	/**
 	 * @var SettingsErrorFactory
 	 */
 	private $settings_error_factory;
@@ -27,12 +32,19 @@ class Sanitizer {
 	 *
 	 * @param SettingsPage         $settings_page          Settings page object.
 	 * @param SettingsErrorFactory $settings_error_factory Settings error factory object.
+	 * @param Option               $option                 Option model.
 	 */
-	public function __construct( SettingsPage $settings_page, SettingsErrorFactory $settings_error_factory ) {
+	public function __construct(
+		SettingsPage $settings_page,
+		SettingsErrorFactory $settings_error_factory,
+		Option $option
+	) {
 
 		$this->settings_page = $settings_page;
 
 		$this->settings_error_factory = $settings_error_factory;
+
+		$this->option = $option;
 	}
 
 	/**
@@ -44,11 +56,11 @@ class Sanitizer {
 	 */
 	public function sanitize( $data ) {
 
-		if ( ! $this->settings_page->get_capability( 'edit' ) ) {
+		if ( ! $this->settings_page->current_user_can( 'edit' ) ) {
 			$error = $this->settings_error_factory->create( 'no-permission-to-edit' );
 			$error->add();
 
-			$data = Option::get();
+			$data = $this->option->get();
 
 			return $data;
 		}

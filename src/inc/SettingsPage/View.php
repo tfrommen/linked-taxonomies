@@ -27,9 +27,9 @@ class View {
 	private $linked_taxonomies;
 
 	/**
-	 * @var string
+	 * @var Option
 	 */
-	private $option_name;
+	private $option;
 
 	/**
 	 * @var SettingsPage
@@ -45,14 +45,15 @@ class View {
 	 * Constructor. Sets up the properties.
 	 *
 	 * @param SettingsPage $settings_page Settings page model.
+	 * @param Option       $option        Option model.
 	 */
-	public function __construct( SettingsPage $settings_page ) {
+	public function __construct( SettingsPage $settings_page, Option $option ) {
 
 		$this->settings_page = $settings_page;
 
-		$this->current_user_can_edit = $this->settings_page->current_user_can( 'edit' );
+		$this->current_user_can_edit = $settings_page->current_user_can( 'edit' );
 
-		$this->option_name = Option::get_name();
+		$this->option = $option;
 
 		$this->title = esc_html_x( 'Linked Taxonomies', 'Settings page title', 'linked-taxonomies' );
 	}
@@ -104,19 +105,21 @@ class View {
 		 */
 		$this->all_taxonomies = (array) apply_filters( 'linkable_taxonomies', $this->all_taxonomies );
 
-		$this->linked_taxonomies = Option::get();
+		$this->linked_taxonomies = $this->option->get();
 		?>
 		<div class="wrap">
 			<h2>
 				<?php echo $this->title; ?>
 			</h2>
-			<?php
-			if ( $this->current_user_can_edit ) {
-				$this->render_form();
-			} else {
-				$this->render_table();
-			}
-			?>
+			<?php if ( ! $this->all_taxonomies ) : ?>
+				<p>
+					<?php esc_html_e( 'No linkable taxonomies found.', 'linked-taxonomies' ); ?>
+				</p>
+			<?php elseif ( $this->current_user_can_edit ) : ?>
+				<?php $this->render_form(); ?>
+			<?php else : ?>
+				<?php $this->render_table(); ?>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -128,9 +131,10 @@ class View {
 	 */
 	private function render_form() {
 
+		$option_name = $this->option->get_name();
 		?>
 		<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
-			<?php settings_fields( $this->option_name ); ?>
+			<?php settings_fields( $option_name ); ?>
 			<?php $this->render_table(); ?>
 			<?php submit_button(); ?>
 		</form>
@@ -160,12 +164,12 @@ class View {
 	 *
 	 * @param object $taxonomy Taxonomy object.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	private function render_row( $taxonomy ) {
 
 		if ( ! isset( $taxonomy->label ) || ! isset( $taxonomy->name ) ) {
-			return FALSE;
+			return;
 		}
 		?>
 		<tr>
@@ -202,7 +206,6 @@ class View {
 			</td>
 		</tr>
 		<?php
-		return TRUE;
 	}
 
 	/**
@@ -211,12 +214,12 @@ class View {
 	 * @param string $taxonomy_name   Current taxonomy name.
 	 * @param object $target_taxonomy Target taxonomy object.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	private function render_taxonomy_settings( $taxonomy_name, $target_taxonomy ) {
 
 		if ( ! isset( $target_taxonomy->name ) || $taxonomy_name === $target_taxonomy->name ) {
-			return FALSE;
+			return;
 		}
 
 		$link = 0;
@@ -229,7 +232,8 @@ class View {
 			};
 		};
 
-		$name = "{$this->option_name}[$taxonomy_name][{$target_taxonomy->name}]";
+		$option_name = $this->option->get_name();
+		$name = "{$option_name}[$taxonomy_name][{$target_taxonomy->name}]";
 
 		$disabled = disabled( $this->current_user_can_edit, FALSE, FALSE );
 		?>
@@ -255,7 +259,6 @@ class View {
 			?>
 		</tr>
 		<?php
-		return TRUE;
 	}
 
 }

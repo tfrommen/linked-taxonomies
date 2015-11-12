@@ -1,0 +1,11 @@
+{
+	"autoload": {
+		"classmap": [
+			"inc/"
+		]
+	},
+	"config": {
+		"prepend-autoloader": false,
+		"classmap-authoritative": true
+	}
+}

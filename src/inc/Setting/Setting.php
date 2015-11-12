@@ -10,6 +10,11 @@ namespace tfrommen\LinkedTaxonomies\Setting;
 class Setting {
 
 	/**
+	 * @var string
+	 */
+	private $option_name;
+
+	/**
 	 * @var Sanitizer
 	 */
 	private $sanitizer;
@@ -17,9 +22,12 @@ class Setting {
 	/**
 	 * Constructor. Sets up the properties.
 	 *
+	 * @param Option    $option    Option model.
 	 * @param Sanitizer $sanitizer Setting sanitizer object.
 	 */
-	public function __construct( Sanitizer $sanitizer ) {
+	public function __construct( Option $option, Sanitizer $sanitizer ) {
+
+		$this->option_name = $option->get_name();
 
 		$this->sanitizer = $sanitizer;
 	}
@@ -33,11 +41,9 @@ class Setting {
 	 */
 	public function register() {
 
-		$option_name = Option::get_name();
-
 		register_setting(
-			$option_name,
-			$option_name,
+			$this->option_name,
+			$this->option_name,
 			array( $this->sanitizer, 'sanitize' )
 		);
 	}

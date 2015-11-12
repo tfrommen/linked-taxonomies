@@ -43,11 +43,13 @@ class Plugin {
 	 */
 	public function initialize() {
 
+		$option = new Setting\Option();
+
 		$updater = new Update\Updater( $this->plugin_data[ 'version' ] );
 		$updater->update();
 
 		$taxonomy_controller = new Taxonomy\Controller(
-			new Taxonomy\Taxonomy()
+			new Taxonomy\Taxonomy( $option )
 		);
 		$taxonomy_controller->initialize();
 
@@ -57,15 +59,17 @@ class Plugin {
 
 			$settings_page = new SettingsPage\SettingsPage();
 			$settings_page_controller = new SettingsPage\Controller(
-				new SettingsPage\View( $settings_page )
+				new SettingsPage\View( $settings_page, $option )
 			);
 			$settings_page_controller->initialize();
 
 			$setting_controller = new Setting\Controller(
 				new Setting\Setting(
+					$option,
 					new Setting\Sanitizer(
 						$settings_page,
-						new SettingsError\Factory()
+						new SettingsError\Factory(),
+						$option
 					)
 				)
 			);

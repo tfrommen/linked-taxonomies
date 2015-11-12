@@ -7,7 +7,7 @@ namespace tfrommen\LinkedTaxonomies\SettingsError;
  *
  * @package tfrommen\LinkedTaxonomies\SettingsError
  */
-class NullSettingsError  implements SettingsErrorInterface {
+class NullSettingsError implements SettingsErrorInterface {
 
 	/**
 	 * Adds the settings error.

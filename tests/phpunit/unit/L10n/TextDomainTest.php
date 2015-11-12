@@ -1,10 +1,13 @@
 <?php # -*- coding: utf-8 -*-
 
+namespace tfrommen\Tests\LinkedTaxonomies\L10n;
+
 use tfrommen\LinkedTaxonomies\L10n\TextDomain as Testee;
+use WP_Mock;
 use WP_Mock\Tools\TestCase;
 
 /**
- * Test case for the TextDomain class.
+ * Test case for the text domain model.
  */
 class TextDomainTest extends TestCase {
 
@@ -29,9 +32,8 @@ class TextDomainTest extends TestCase {
 		WP_Mock::wpPassthruFunction(
 			'plugin_basename',
 			array(
-				'times' => 1,
-				'args'  => array(
-					Mockery::type( 'string' ),
+				'args' => array(
+					$file,
 				),
 			)
 		);
@@ -43,8 +45,7 @@ class TextDomainTest extends TestCase {
 		WP_Mock::wpFunction(
 			'load_plugin_textdomain',
 			array(
-				'times' => 1,
-				'args'  => array(
+				'args' => array(
 					$text_domain,
 					FALSE,
 					$domain_path,

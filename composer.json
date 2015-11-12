@@ -41,6 +41,11 @@
 			"tfrommen\\LinkedTaxonomies\\": "src/inc/"
 		}
 	},
+	"scripts": {
+		"post-autoload-dump": [
+			"composer dump-autoload -d src"
+		]
+	},
 	"extra": {
 		"branch-alias": {
 			"dev-master": "1.3.x-dev"

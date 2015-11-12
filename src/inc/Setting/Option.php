@@ -3,7 +3,7 @@
 namespace tfrommen\LinkedTaxonomies\Setting;
 
 /**
- * Static option model.
+ * Option model.
  *
  * @package tfrommen\LinkedTaxonomies\Setting
  */
@@ -12,16 +12,16 @@ class Option {
 	/**
 	 * @var string
 	 */
-	private static $name = 'linked_taxonomies';
+	private $name = 'linked_taxonomies';
 
 	/**
 	 * Returns the option name.
 	 *
 	 * @return string
 	 */
-	public static function get_name() {
+	public function get_name() {
 
-		return self::$name;
+		return $this->name;
 	}
 
 	/**
@@ -31,28 +31,17 @@ class Option {
 	 *
 	 * @return string[][]
 	 */
-	public static function get( array $default = array() ) {
+	public function get( array $default = array() ) {
 
-		$value = get_option( self::$name, $default );
+		$value = get_option( $this->name, $default );
 		if ( ! is_array( $value ) ) {
-			return $default;
+			$value = $default;
+			if ( ! is_array( $value ) ) {
+				return array();
+			}
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Update the option to the given value.
-	 *
-	 * @param string[][] $value New option value.
-	 *
-	 * @return bool
-	 */
-	public static function update( array $value ) {
-
-		$updated = update_option( self::$name, $value );
-
-		return $updated;
 	}
 
 }

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Linked Taxonomies 1.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/tfrommen/linked-taxonomies/issues\n"
-"POT-Creation-Date: 2015-11-01 21:29:09+00:00\n"
+"POT-Creation-Date: 2015-11-12 18:04:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,19 +24,23 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: inc/SettingsPage/View.php:183
+#: inc/SettingsPage/View.php:116
+msgid "No linkable taxonomies found."
+msgstr ""
+
+#: inc/SettingsPage/View.php:187
 msgid "Taxonomy"
 msgstr ""
 
-#: inc/SettingsPage/View.php:186
+#: inc/SettingsPage/View.php:190
 msgid "No Link"
 msgstr ""
 
-#: inc/SettingsPage/View.php:189
+#: inc/SettingsPage/View.php:193
 msgid "Unidirectional Link"
 msgstr ""
 
-#: inc/SettingsPage/View.php:192
+#: inc/SettingsPage/View.php:196
 msgid "Bidirectional Link"
 msgstr ""
 
@@ -54,12 +58,12 @@ msgctxt "Settings error message"
 msgid "You don't have permission to edit linked taxonomies."
 msgstr ""
 
-#: inc/SettingsPage/View.php:57
+#: inc/SettingsPage/View.php:58
 msgctxt "Settings page title"
 msgid "Linked Taxonomies"
 msgstr ""
 
-#: inc/SettingsPage/View.php:69
+#: inc/SettingsPage/View.php:70
 msgctxt "Menu item title"
 msgid "Taxonomies"
 msgstr ""

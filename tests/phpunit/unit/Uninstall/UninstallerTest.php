@@ -1,10 +1,17 @@
 <?php # -*- coding: utf-8 -*-
 
+namespace tfrommen\Tests\LinkedTaxonomies\Uninstall;
+
+use Mockery;
+use tfrommen\LinkedTaxonomies\Setting\Option;
 use tfrommen\LinkedTaxonomies\Uninstall\Uninstaller as Testee;
+use tfrommen\LinkedTaxonomies\Update\Updater;
+use WP_Mock;
 use WP_Mock\Tools\TestCase;
+use wpdb;
 
 /**
- * Test case for the Uninstaller class.
+ * Test case for the uninstaller.
  */
 class UninstallrTest extends TestCase {
 
@@ -21,25 +28,29 @@ class UninstallrTest extends TestCase {
 
 		$version_option_name = 'plugin_version';
 
-		/** @var tfrommen\LinkedTaxonomies\Update\Updater $updater */
+		/** @var Updater $updater */
 		$updater = Mockery::mock( 'tfrommen\LinkedTaxonomies\Update\Updater' )
 			->shouldReceive( 'get_option_name' )
-			->once()
 			->andReturn( $version_option_name )
 			->getMock();
 
 		/** @var wpdb $wpdb */
 		$wpdb = Mockery::mock( 'wpdb' );
 
+		$option_name = 'plugin_option';
+
+		/** @var Option $option */
+		$option = Mockery::mock( 'tfrommen\LinkedTaxonomies\Setting\Option' )
+		                  ->shouldReceive( 'get_name' )
+		                  ->andReturn( $option_name )
+		                  ->getMock();
+
 		WP_Mock::wpFunction(
 			'is_multisite',
 			array(
-				'times'  => 1,
 				'return' => $is_multisite,
 			)
 		);
-
-		$times_delete = 1;
 
 		$return_get_col = array();
 
@@ -48,32 +59,18 @@ class UninstallrTest extends TestCase {
 
 			$wpdb->blogs = 'blogs';
 
-			$times_delete = count( $blog_ids );
+			WP_Mock::wpFunction( 'switch_to_blog' );
 
-			WP_Mock::wpFunction(
-				'switch_to_blog',
-				array(
-					'times' => $times_delete,
-				)
-			);
-
-			WP_Mock::wpFunction(
-				'restore_current_blog',
-				array(
-					'times' => 1,
-				)
-			);
+			WP_Mock::wpFunction( 'restore_current_blog' );
 		}
 
 		$wpdb->shouldReceive( 'get_col' )
-			->times( count( $return_get_col ) )
 			->andReturnValues( $return_get_col );
 
 		WP_Mock::wpFunction(
 			'delete_option',
 			array(
-				'times' => $times_delete,
-				'args'  => array(
+				'args' => array(
 					$version_option_name,
 				),
 			)
@@ -82,17 +79,13 @@ class UninstallrTest extends TestCase {
 		WP_Mock::wpFunction(
 			'delete_option',
 			array(
-				'times' => $times_delete,
-				'args'  => array(
-					Mockery::type( 'string' ),
+				'args' => array(
+					$option_name,
 				),
 			)
 		);
 
-		$testee = new Testee(
-			$updater,
-			$wpdb
-		);
+		$testee = new Testee( $updater, $wpdb, $option );
 
 		$testee->uninstall();
 
